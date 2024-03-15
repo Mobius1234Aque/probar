@@ -31,6 +31,8 @@ import { Logout } from "./components/Logout";
 import { AdminRe } from "./views/AdminRe";
 import { AdminRe2 } from "./views/AdminRe2";
 import { AdminSol } from "./views/AdminSol";
+import { AsigGrupo } from "./views/AsigGrupo";
+import { Asignados } from "./views/Asignados";
 
 // Componente ScrollToTop
 const ScrollToTop = () => {
@@ -139,6 +141,14 @@ const router = createBrowserRouter([
   {
     path: "/RegistroF",
     element: <RegistroF />,
+  },
+  {
+    path: "/AsigGrupo",
+    element: <AsigGrupo />,
+  }, 
+  {
+    path: "/Asignados",
+    element: <Asignados />,
   },
 ]);
 

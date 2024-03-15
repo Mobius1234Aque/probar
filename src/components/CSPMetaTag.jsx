@@ -4,7 +4,7 @@ export function CSPMetaTag() {
     useEffect(() => {
         const meta = document.createElement('meta');
         meta.httpEquiv = 'Content-Security-Policy';
- 
+
         meta.content = `
     default-src 'self';
     script-src 'self' https://apis.google.com https://www.gstatic.com https://www.google.com https://cdn.jsdelivr.net;
@@ -15,15 +15,11 @@ export function CSPMetaTag() {
     frame-src 'self' https://www.google.com;
     form-action 'self';
     `;
-    
-
         document.head.appendChild(meta);
-
         return () => {
             document.head.removeChild(meta);
         };
     }, []);
-
     return null;
 }
 

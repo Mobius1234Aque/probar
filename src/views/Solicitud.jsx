@@ -30,7 +30,7 @@ export function Solicitud() {
 
   const obtenerValoresPlantel = async () => {
     try {
-      const response = await axios.get("/api/plantel");
+      const response = await axios.get("http://localhost:3000/plantel");
       setPlantelOptions(response.data);
     } catch (error) {
       console.error("Error al obtener valores del plantel:", error);
@@ -38,7 +38,7 @@ export function Solicitud() {
   };
   const obtenerValoresSesion = async () => {
     try {
-      const response = await axios.get("/api/sesiones");
+      const response = await axios.get("http://localhost:3000/sesiones");
       setSesionOptions(response.data);
     } catch (error) {
       console.error("Error al obtener valores de sesiones:", error);
@@ -48,7 +48,7 @@ export function Solicitud() {
   const obtenerValoresPreguntasSecretas = async () => {
     try {
       const response = await axios.get(
-        "https://012zona.vercel.app/preguntas-secretas"
+        "http://localhost:3000/preguntas-secretas"
       );
    
       setPreguntasSecretasOptions(response.data);
@@ -87,16 +87,16 @@ export function Solicitud() {
 
   
       // Verificar si la CURP ya existe en la base de datos (primera verificación)
-      const curpExistsInSoli = await axios.post('https://012zona.vercel.app/verificar-curpSoli', { curp: values.curp });
+      const curpExistsInSoli = await axios.post('http://localhost:3000/verificar-curpSoli', { curp: values.curp });
   
       // Verificar si la CURP ya existe en otra ruta (segunda verificación)
-      const curpExists = await axios.post('https://012zona.vercel.app/verificar-curp', { curp: values.curp });
+      const curpExists = await axios.post('http://localhost:3000/verificar-curp', { curp: values.curp });
   
       // Verificar si el correo ya existe en la tabla de registros (tercera verificación)
-      const correoExists = await axios.post('https://012zona.vercel.app/verificar-correo', { correo: values.correo });
+      const correoExists = await axios.post('http://localhost:3000/verificar-correo', { correo: values.correo });
   
       // Verificar si el correo ya existe en la tabla de registrosoli (cuarta verificación)
-      const correoExistsInSoli = await axios.post('https://012zona.vercel.app/verificar-correoSoli', { correo: values.correo });
+      const correoExistsInSoli = await axios.post('http://localhost:3000/verificar-correoSoli', { correo: values.correo });
   
       if (curpExistsInSoli.data.exists) {
         // Mostrar mensaje de error si la CURP ya existe en la solicitud
@@ -112,7 +112,7 @@ export function Solicitud() {
         message.error('El correo ya está asociado a una solicitud existente.');
       } else {
         // Todas las verificaciones pasaron, realizar la solicitud al servidor para insertar los datos
-        const response = await axios.post('https://012zona.vercel.app/insertar-solicitud', dataToInsert);
+        const response = await axios.post('http://localhost:3000/insertar-solicitud', dataToInsert);
         message.success('Solicitud enviada. Se le notificará a través del correo proporcionado sobre la aceptación o rechazo de la misma.');
         navigate('/');
       }

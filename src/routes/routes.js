@@ -20,6 +20,10 @@ import { RegistroF } from "../views/RegistroF";
 import { Solicitud } from "../views/Solicitud";
 import { Mapa } from "../views/Mapa";
 
+
+import { Asignados } from "../views/Asignados";
+
+
 import { AdminRe } from "../views/AdminRe";
 import { AdminRe2 } from "../views/AdminRe2";
 import { AdminSol } from "../views/AdminSol";
@@ -117,5 +121,8 @@ export const router = createBrowserRouter([
   {
     path: "/RegistroF",
     element: <RegistroF />,
+  },  {
+    path: "/Asignados",
+    element: <Asignados />,
   },
 ]);

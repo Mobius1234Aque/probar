@@ -43,28 +43,34 @@ const usuarioTextos = {
 2:'Baja'
 };
 
+const obtenerRegistros = async () => {
+    try {
+        const response = await axios.get("http://localhost:3000/registrosB");
+        // Formatear la fecha y hora antes de establecer los registros
+        const registrosFormateados = response.data.map(registro => ({
+            ...registro,
+            fecha_registro: new Date(registro.fecha_registro).toLocaleString() // Formatear la fecha y hora
+        }));
 
-    const obtenerRegistros = async () => {
-        try {
-            const response = await axios.get("http://localhost:3000/registrosB");
-            // Formatear la fecha y hora antes de establecer los registros
-            const registrosFormateados = response.data.map(registro => ({
-                ...registro,
-                fecha_registro: new Date(registro.fecha_registro).toLocaleString() // Formatear la fecha y hora
-            }));
+        const sesionFormateados = response.data.map(registro => ({
+            ...registro,
+            fecha_inicio_sesion: new Date(registro.fecha_inicio_sesion).toLocaleString() // Formatear la fecha y hora
+        }));
 
-            const sesionFormateados = response.data.map(registro => ({
-                ...registro,
-                fecha_inicio_sesion: new Date(registro.fecha_inicio_sesion).toLocaleString() // Formatear la fecha y hora
-            }));
+        // Fusionar los datos formateados en un solo conjunto de registros
+        const registrosCombinados = registrosFormateados.map((registro, index) => ({
+            ...registro,
+            fecha_inicio_sesion: sesionFormateados[index].fecha_inicio_sesion
+        }));
 
-            setRegistros(registrosFormateados);
-            setRegistros(sesionFormateados);
-            setLoading(false); // Marca la carga como completa una vez que se reciben los datos
-        } catch (error) {
-            message.error("Error al obtener registros");
-        }
-    };
+        setRegistros(registrosCombinados);
+        setLoading(false); // Marca la carga como completa una vez que se reciben los datos
+    } catch (error) {
+        message.error("Error al obtener registros");
+    }
+};
+
+
     const columns = [
         {
             title: "CURP",

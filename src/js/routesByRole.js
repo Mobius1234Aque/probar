@@ -52,11 +52,18 @@ export const routesByRole = {
   "3": [
     { name: "Inicio", path: "/" },
     {
-      name: "Salud",path: "/Salud",
+      name: "Salud",
       submenu: [
         { name: "Registro", path: "/RegA" },
         { name: "Actualización", path: "/MiLista" },
         { name: "Descarga de reporte", path: "/modal" },
+      ],
+    },
+    {
+      name: "Docentes",
+      submenu: [
+        { name: "Asignar", path: "/AsigGrupo" }, 
+        { name: "Actualizar/borrar", path: "/Asignados" }, 
       ],
     },
     { name: "¿Quiénes somos?", path: "/Quien" },
