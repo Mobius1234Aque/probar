@@ -5,21 +5,27 @@ import "../css/Inicio.css";
 import { ScrollToTop } from "../components/ScrollToTop";
 import inicio from "../img/imagenUno.jpg";
 import { CSPMetaTag } from "../components/CSPMetaTag";
+import { Divider, Image,Affix } from "antd";
+import { Carrusel } from "../components/Carrusel";
 
 export function Home() {
   return (
     <>
       <CSPMetaTag />
 
-      <Header />
+      <Affix>
+        <Header />
+      </Affix>
+      <Carrusel />
 
-      <Titulo tit="Bienvenido" />
+      <Divider className="chiUwu" />
+      <main className=" flex items-center justify-center ">
+        <section className=" container text-center mb-5 p-4 font-custom">
+          <h1 className="text-4xl py-2 font-semibold"> BIENVENIDO</h1>
+          <h2 className="text-2xl py-8 font-semibold"> Zona 012 </h2>
 
-      <div className="item-tres">
-        <ScrollToTop />
-        <div className="item-dos">
-          <Subtitulo subTit={"Zona 012:"} />
-          <p>
+          <p className="p-4  text-lg text-left leading-10">
+            {" "}
             Supervisión Escolar Sistema Indígena Numero 12 de Huazalingo Hidalgo
             es una unidad económica registrada desde 2014-12 que se dedica a la
             actividad económica Actividades administrativas de instituciones de
@@ -29,20 +35,22 @@ export function Home() {
             web . Toda la información sobre esta empresa se ha obtenido a través
             de fuentes públicas del gobierno de Huazalingo, Hidalgo México.{" "}
           </p>
-        </div>
-
-        <div className="image-container">
-          <img src={inicio} alt="" />
-        </div>
-
-        <Subtitulo subTit={"Información relevante:"} />
-        <p>
-          {" "}
-          Es una unidad económica registrada desde 2014-12 que se dedica a la
-          actividad económica, actividades administrativas de instituciones de
-          bienestar social
-        </p>
-      </div>
+          <section className="container flex lg:flex-row md:flex flex-col mt-10">
+            <div className="basis-1/2">
+              <Image className="lg:min-w-max md:w-1/2" src={inicio} />
+            </div>
+            <div className="basis-1/2 text-left m-10  px-10">
+              <h3 className="text-2xl font-semibold">Informacion relevante</h3>
+              <p className="mt-6 text-lg leading-10">
+                {" "}
+                Es una unidad económica registrada desde 2014-12 que se dedica a
+                la actividad económica, actividades administrativas de
+                instituciones de bienestar social
+              </p>
+            </div>
+          </section>
+        </section>
+      </main>
 
       <Footer />
     </>

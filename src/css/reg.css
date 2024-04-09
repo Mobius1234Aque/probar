@@ -75,3 +75,9 @@
 .link:hover{
     color: #fff;
 }
+
+.hover-text-grays:hover{
+    background-color: #8098A5 !important;
+    color: black !important;
+    font-weight: bold;
+}

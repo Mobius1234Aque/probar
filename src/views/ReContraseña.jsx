@@ -10,7 +10,7 @@ import { ScrollToTop } from "../components/ScrollToTop";
 import { Subtitulo, Contenido } from "../components/Titulos";
 
 export function ReContraseña() {
-  
+
   const [formValues, setFormValues] = useState({});
   const handleFormValuesChange = (changedValues, allValues) => {
     setFormValues(allValues);
@@ -28,10 +28,10 @@ export function ReContraseña() {
           curp: values.curp,
         }
       );
-  
+
       const curpExists = curpExistsResponse.data.exists;
       const usuarioDeBaja = curpExistsResponse.data.usuarioDeBaja;
-  
+
       if (curpExists) {
         if (usuarioDeBaja) {
           message.error("El usuario está dado de baja");
@@ -48,7 +48,7 @@ export function ReContraseña() {
       }
     } catch (error) {
       console.error("Error al verificar existencia:", error);
-  
+
       if (error.response) {
         console.error("Respuesta del servidor:", error.response.data);
         message.error("Error. Por favor, inténtalo de nuevo.");
@@ -57,7 +57,7 @@ export function ReContraseña() {
       }
     }
   };
-  
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
     message.error("Por favor, completa todos los campos.");
@@ -120,10 +120,16 @@ export function ReContraseña() {
               />
             </Form.Item>
 
-            <Form.Item> 
-              <Button type="primary" htmlType="submit" disabled={!formValues.curp }>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={!formValues.curp}
+                style={{ color: 'black' }}
+              >
                 Continuar
               </Button>
+
             </Form.Item>
           </Form>
         </div>

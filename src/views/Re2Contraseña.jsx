@@ -262,23 +262,20 @@ export function Re2Contraseña() {
           message.success("Datos correctos");
           setShowPasswordUpdate(true);
         } else {
-          message.error("Error en la solicitud de recuperación de contraseña.");
+          message.error("Datos incorrectos");
         }
       }
 
 
       else if (tipoRecuperacion === "correo") {
         <Form.Item>
-          <Button type="primary" onClick={handleGenerarToken}>
+          <Button type="primary" onClick={handleGenerarToken} style={{ color: 'black' }}>
             Generar Token
           </Button>
         </Form.Item>
       }
-
-
-
     } catch (error) {
-      message.error("Error en la solicitud de recuperación de contraseña.");
+      message.error("La respuesta no es correcta.");
     }
   };
   
@@ -374,7 +371,7 @@ export function Re2Contraseña() {
                   <Contenido conTit={`Enviar código al correo: ${correo}`} />
                 ) : null}
                 <Form.Item>
-                  <Button type="primary" onClick={handleGenerarToken}>
+                  <Button type="primary" onClick={handleGenerarToken}    style={{ color: 'black' }}>
                     Generar código
                   </Button>
 
@@ -405,7 +402,7 @@ export function Re2Contraseña() {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" onClick={handleContinuar} disabled={!formValues.token}>
+                  <Button type="primary" onClick={handleContinuar} disabled={!formValues.token}    style={{ color: 'black' }}>
                     Continuar
                   </Button>
                 </Form.Item>
@@ -441,7 +438,7 @@ export function Re2Contraseña() {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" disabled={!formValues.respuesta}>
+                  <Button type="primary" htmlType="submit" disabled={!formValues.respuesta}  style={{ color: 'black' }}>
                     Enviar
                   </Button>
                 </Form.Item>
@@ -523,7 +520,7 @@ export function Re2Contraseña() {
               <Progress percent={contrasenaFortaleza.score} status="active" strokeColor={contrasenaFortaleza.color} />
 
               <Form.Item>
-                <Button type="primary" htmlType="submit" disabled={!formValues.nuevaContrasena}>
+                <Button type="primary" htmlType="submit" disabled={!formValues.nuevaContrasena} style={{ color: 'black' }}>
                   Actualizar Contraseña
                 </Button>
               </Form.Item>
@@ -531,7 +528,7 @@ export function Re2Contraseña() {
           )}
 
           <Link to="/ReContraseña">
-            <Button type="primary" style={{ marginBottom: "16px" }}>
+            <Button type="primary" style={{ marginBottom: "16px"  , color:"black" }} >
               Ir atrás
             </Button>
           </Link>

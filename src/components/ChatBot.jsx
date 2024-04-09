@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ChatBot from "react-simple-chatbot";
 import { ThemeProvider } from "styled-components";
+import { RobotOutlined } from '@ant-design/icons';
+
 
 const theme = {
   background: "#f5f8fb",
@@ -16,8 +18,10 @@ const theme = {
 class Contenido extends Component {
   render() {
     return (
-      <ThemeProvider theme={theme}>
+      
+      <ThemeProvider theme={theme} >
         <ChatBot
+         botAvatar={<RobotOutlined />}
           steps={[
             {
               id: "1",

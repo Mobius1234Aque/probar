@@ -1,38 +1,41 @@
 import "../css/Login.css";
 import "../css/botones.css";
-import { Form, Table, Select, message, Spin, Progress, Button, Input, Modal } from 'antd';
-import { ExclamationCircleOutlined, IdcardOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
+import { Form, Select,Alert, message, Spin, Button, Modal, Row, Col, Card, Pagination } from 'antd';
+import { IdcardOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ScrollToTop } from "../components/ScrollToTop";
-import { Subtitulo, Notificacion, Contenido } from "../components/Titulos";
-import { useNavigate } from "react-router-dom";
+import { Titulo, Notificacion, Contenido } from "../components/Titulos";
 import axios from "axios";
 import { CSPMetaTag } from "../components/CSPMetaTag";
-import { Login } from "./Login";
-
+import { Login } from "./Login"; 
 const { Option } = Select;
 const { confirm } = Modal;
 
 export function AsigGrupo() {
     const [grupoOptions, setGrupoOptions] = useState([]);
     const [gradoOptions, setGradoOptions] = useState([]);
-
     const [registros, setRegistros] = useState([]);
-    const [loading, setLoading] = useState(true); // Estado para controlar la carga
+    const [loading, setLoading] = useState(true);
     const [plantel, setPlantel] = useState(null);
-    const [selectedUser, setSelectedUser] = useState(null); // Estado para almacenar el usuario seleccionado
-    const [modalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad de la ventana emergente
-    const [valorPreguntaSecreta, setValorPreguntaSecreta] = useState(""); // Estado para almacenar el valor de la pregunta secreta
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(9);
+    const [buttonLoading, setButtonLoading] = useState(false); // Estado de carga del botón
+    // Estado para los datos obtenidos de obtenerGrupoDispo
+    const [grupoDisponibles, setGrupoDisponibles] = useState([]);
 
 
+    
     useEffect(() => {
+        obtenerGrupoDispo(); 
         obtenerRegistros();
         obtenerGrupo();
         obtenerGrado();
     }, []);
-
 
     const plantelTextos = {
         1: 'Zona 12',
@@ -45,14 +48,24 @@ export function AsigGrupo() {
         2: 'Director',
         3: 'Maestro'
     };
+
+    const obtenerGrupoDispo = async () => {
+        try {
+            const response = await axios.get("http://localhost:3000/grupogradoDispo");
+            setGrupoDisponibles(response.data); // Actualiza el estado con los datos obtenidos
+        } catch (error) {
+            console.error("Error al obtener valores de grupos:", error);
+            // Manejar el error
+        }
+    };
+    
     const obtenerRegistros = async () => {
         try {
             const response = await axios.get("http://localhost:3000/docentes_asignacion", {
                 params: {
-                    plantel: plantel 
+                    plantel: plantel
                 }
             });
-
             console.log("Respuesta del servidor:", response);
             if (response.data.success) {
                 setRegistros(response.data.docentes);
@@ -66,21 +79,19 @@ export function AsigGrupo() {
         }
     };
 
-
     const obtenerGrado = async () => {
         try {
             const response = await axios.get("http://localhost:3000/grado");
-            setGradoOptions(response.data); 
+            setGradoOptions(response.data);
         } catch (error) {
             console.error("Error al obtener valores de grados:", error);
         }
     };
 
-
     const obtenerGrupo = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/grupo"); 
-            setGrupoOptions(response.data);  
+            const response = await axios.get("http://localhost:3000/grupo");
+            setGrupoOptions(response.data);
         } catch (error) {
             console.error("Error al obtener valores de grupos:", error);
         }
@@ -88,82 +99,105 @@ export function AsigGrupo() {
 
     const handleAceptar = (record) => {
         setSelectedUser(record);
-        setModalVisible(true); 
+        setModalVisible(true);
     };
 
     const handleCancel = () => {
-        setModalVisible(false); 
+        setModalVisible(false);
     };
 
-    const handleFormSubmit = async (values) => {
+    const handleFormSubmit = async (values) => { 
+        setButtonLoading(true); // Activar el estado de carga del botón
+ 
         try {
+            // Verificar si la CURP ya tiene una asignación
+            const verificarResponse = await axios.get("http://localhost:3000/verificar_registros_curp", {
+                params: {
+                    curp: selectedUser.curp
+                }
+            });
+
+            if (verificarResponse.data.count >= 1) {
+                message.info("El docente ya tiene una asignación");
+                return;
+            }
+
+            // Verificar si el grado y grupo en el plantel ya están asignados
+            const verificarGradoGrupoResponse = await axios.get("http://localhost:3000/verificar_asignacion_grado_grupo", {
+                params: {
+                    plantelId: selectedUser.plantel,
+                    grupo: values.grupo,
+                    grado: values.grado
+                }
+            });
+
+            if (verificarGradoGrupoResponse.data.count >= 1) {
+                message.info("El grado y grupo en el plantel ya están asignados");
+                return;
+            }
+
+            // Realizar la asignación del docente
             const response = await axios.post("http://localhost:3000/asignar_grupo_grado", {
-                docenteId: selectedUser.curp, // Usar la CURP del usuario seleccionado
+                docenteId: selectedUser.curp,
                 grupo: values.grupo,
                 grado: values.grado,
-                plantelId: selectedUser.plantel,
-                
+                plantelId: selectedUser.plantel
             });
-    
+
             console.log("Respuesta del servidor:", response);
-    
+
             if (response.data.success) {
                 message.success("Docente asignado correctamente");
-                // Actualizar la lista de registros para reflejar los cambios
+
+                // Insertar la CURP del docente en la tabla de alumnos
+                const insertarDocenteCurpResponse = await axios.post("http://localhost:3000/insertar_docente_curp_alumnos", {
+                    curp: selectedUser.curp,
+                    plantelId: selectedUser.plantel,
+                    grupo: values.grupo,
+                    grado: values.grado
+                });
                 obtenerRegistros();
+                obtenerGrupoDispo();
             } else {
                 message.error(response.data.message);
             }
-        } catch (error) {
+            obtenerRegistros();
+            
+            obtenerGrupoDispo();
+        }  catch (error) {
             console.error("Error al asignar grupo y grado:", error);
-            message.error("Error al asignar grupo y grado");
+            message.error("Error al asignar grupo y grado: " + error.message); // Agregar el mensaje de error al mensaje de la notificación
         }
-        setModalVisible(false);
+        finally {
+            // Ocultar mensaje de carga
+            setButtonLoading(false); // Desactivar el estado de carga del botón
+            setModalVisible(false);
+        }
     };
-    
-    const columns = [
-        {
-            title: "CURP",
-            dataIndex: "curp",
-            key: "curp",
-        },
-        {
-            title: "Plantel",
-            dataIndex: "plantel",
-            key: "plantel",
-            render: (text, record) => (
-                <span>
-                    {plantelTextos[record.plantel]}
-                </span>
-            ),
-        },
-        {
-            title: "Nombre",
-            dataIndex: "nombre",
-            key: "nombre",
-        },
-        {
-            title: "Apellido paterno",
-            dataIndex: "aPaterno",
-            key: "aPaterno",
-        },
-        {
-            title: "Apellido materno",
-            dataIndex: "aMaterno",
-            key: "aMaterno",
-        },
 
-        {
-            title: "Acciones",
-            key: "acciones",
-            render: (text, record) => (
-              <span>
-                <Button className="acciones-button" onClick={() => handleAceptar(record)}>Asignar</Button>
-              </span>
-            ),
-          },
-          
-    ];
+
+
+
+
+
+    const handlePageChange = (page, pageSize) => {
+        setCurrentPage(page);
+    };
+
+    const renderRegistros = registros.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((registro, index) => (
+        <Col key={index} xs={24} sm={12} md={8} lg={8} xl={8}>
+            <Card
+                title={`${registro.nombre} ${registro.aPaterno} ${registro.aMaterno}`}
+                style={{ marginBottom: 16 }}
+            >
+                <p><strong>CURP:</strong> {registro.curp}</p>
+                <p><strong>Plantel:</strong> {plantelTextos[registro.plantel]}</p>
+                <Button style={{ color: 'black' }} type="primary" onClick={() => handleAceptar(registro)}>
+                Asignar grado y grupo
+                </Button>
+            </Card>
+        </Col>
+    ));
 
     return (
         <>
@@ -171,24 +205,53 @@ export function AsigGrupo() {
             <Header />
             <div className="boxAdmin">
                 <ScrollToTop />
-                <Subtitulo subTit={"Docentes"} />
+                <Titulo tit={"Maestros del plantel sin asignación"} /> 
+
+<div style={{ width: "50%", margin: "0 auto" }}>
+  {grupoDisponibles.length > 0 ? (
+    <>
+      <p>Grados y grupos con alumnos pero sin asignación de maestro</p>
+      <ul>
+        {grupoDisponibles.map((grupo, index) => (
+          <li key={index} style={{ marginBottom: "8px", fontSize: "16px", fontWeight: "bold" }}>
+            Grado: {grupo.grado_id} - Grupo: {grupo.grupo_id === 1 ? 'A' : grupo.grupo_id === 2 ? 'B' : grupo.grupo_id}
+          </li>
+        ))}
+      </ul>
+    </>
+  ) : (
+    <p> </p>
+  )}
+</div>
+
+<br></br>
+
                 {loading ? (
                     <Spin size="large" />
                 ) : (
-                    <Table dataSource={registros} columns={columns} />
+                    <Row gutter={[20, 20]}>
+                        {renderRegistros}
+                    </Row>
                 )}
-            </div>
+                <div style={{ textAlign: 'center', marginTop: 20 }}>
+                    <Pagination
+                        current={currentPage}
+                        total={registros.length}
+                        pageSize={pageSize}
+                        onChange={handlePageChange}
+                        showSizeChanger={false}
+                    />
+                </div>
+            </div><br></br>
             <Footer />
 
-            {/* Ventana emergente */}
             <Modal
                 title="Asignar docente"
                 visible={modalVisible}
                 onCancel={handleCancel}
-                footer={null}>
+                footer={null}
+            >
                 <p>Docente: {selectedUser && `${selectedUser.nombre} ${selectedUser.aPaterno} ${selectedUser.aMaterno}`}</p>
-
-                {/* Formulario */}
                 <Form onFinish={handleFormSubmit}>
                     <Contenido conTit={"Grupo"} />
                     <Form.Item
@@ -198,14 +261,15 @@ export function AsigGrupo() {
                                 required: true,
                                 message: (
                                     <Notificacion
-                                        noti={"Seleccione un grupo"}/>
+                                        noti={"Seleccione un grupo"} />
                                 ),
                             },
                         ]}
                     >
                         <Select
                             placeholder="Ejemplo: A"
-                            suffixIcon={<IdcardOutlined />}>
+                            suffixIcon={<IdcardOutlined />}
+                        >
                             {grupoOptions.map((option) => (
                                 <Option key={option.value} value={option.value}>
                                     {option.label}
@@ -214,7 +278,7 @@ export function AsigGrupo() {
                         </Select>
                     </Form.Item>
 
-                    <Contenido conTit={"Grado"}/>
+                    <Contenido conTit={"Grado"} />
                     <Form.Item
                         name="grado"
                         rules={[
@@ -222,14 +286,15 @@ export function AsigGrupo() {
                                 required: true,
                                 message: (
                                     <Notificacion
-                                        noti={"Seleccione un grado"}/>
+                                        noti={"Seleccione un grado"} />
                                 ),
                             },
                         ]}
                     >
                         <Select
                             placeholder="Ejemplo: 4"
-                            suffixIcon={<IdcardOutlined />}>
+                            suffixIcon={<IdcardOutlined />}
+                        >
                             {gradoOptions.map((option) => (
                                 <Option key={option.value} value={option.value}>
                                     {option.label}
@@ -238,8 +303,8 @@ export function AsigGrupo() {
                         </Select>
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Asignar
+                        <Button type="primary" htmlType="submit" style={{ color: 'black' }} loading={buttonLoading}>
+                            Asignar grupo y grado
                         </Button>
                     </Form.Item>
                 </Form>

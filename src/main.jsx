@@ -8,7 +8,7 @@ import { Quien } from "./views/Quiensoy";
 import { Politicas } from "./views/Politicas";
 import { Cookies } from "./views/Cookies";
 import { Regalu } from "./views/RegAlumnos";
-import "./css/index.css";
+import "./index.css";
 import SearchComponent from "./views/Misalumnos";
 import {
   createBrowserRouter,
@@ -33,7 +33,10 @@ import { AdminRe2 } from "./views/AdminRe2";
 import { AdminSol } from "./views/AdminSol";
 import { AsigGrupo } from "./views/AsigGrupo";
 import { Asignados } from "./views/Asignados";
+import{SaludDatos} from "./views/SaludDatos";
+import{ReSalud} from "./views/ReSalud";
 
+ 
 // Componente ScrollToTop
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -48,79 +51,75 @@ const ScrollToTop = () => {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Login />, //ya
   },
   {
     path: "/Login",
-    element: <Login />,
+    element: <Login />, //ya
   },
   {
     path: "/Terminos",
-    element: <Terminos />,
+    element: <Terminos />, //ya
   },
   {
     path: "/Quien",
-    element: <Quien />,
+    element: <Quien />, //ya
   },
   {
     path: "/Politicas",
-    element: <Politicas />,
+    element: <Politicas />, //ya
   },
   {
     path: "/Cookies",
-    element: <Cookies />,
+    element: <Cookies />, //ya
   },
   {
     path: "/RegA",
-    element: <Regalu />,
+    element: <Regalu />, //ya
   },
   {
     path: "/MiLista",
-    element: <SearchComponent />,
+    element: <SearchComponent />, //ya
   },
   {
     path: "/Salud",
-    element: <Salud />,
+    element: <Salud />, //falta
   },
   {
     path: "/Preguntas",
-    element: <Preguntas />,
+    element: <Preguntas />, //falta
   },
   {
     path: "/esExamen",
-    element: <Escoger />,
+    element: <Escoger />, //falta
   },
   {
     path: "/Historial",
-    element: <Historial />,
+    element: <Historial />, //falta
   },
   {
     path: "/modal",
-    element: <ModA />,
+    element: <ModA />, //falta
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: <NotFound />, //falta
   },
   {
     path: "/ReContraseña",
-    element: <ReContraseña />,
+    element: <ReContraseña />, //falta
   },
   {
     path: "/Re2Contraseña",
-    element: <Re2Contraseña />,
-  },
-  {
-    path: "/Registro",
-    element: <Registro />,
+    element: <Re2Contraseña />, //falta
   },
   {
     path: "/Solicitud",
-    element: <Solicitud />,
+    element: <Solicitud />, //falta
   },
   {
     path: "/Mapa",
-    element: <Mapa />,
+    element: <Mapa />, //falta
   },
   {
     path: "/Logout",
@@ -128,19 +127,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/AdminRe",
-    element: <AdminRe />,
+    element: <AdminRe />, //falta
   },
   {
     path: "/AdminRe2",
-    element: <AdminRe2 />,
+    element: <AdminRe2 />, //falta
   },
   {
     path: "/AdminSol",
-    element: <AdminSol />,
+    element: <AdminSol />, //falta
   },
   {
     path: "/RegistroF",
-    element: <RegistroF />,
+    element: <RegistroF />, //falta
+  },
+  {
+    path: "/Inicio",
+    element: <Home />, //ya
   },
   {
     path: "/AsigGrupo",
@@ -150,6 +153,17 @@ const router = createBrowserRouter([
     path: "/Asignados",
     element: <Asignados />,
   },
+  {
+    path: "/SaludDatos",
+    element: <SaludDatos/>
+  }
+  ,
+  {
+    path: "/ReSalud",
+    element: <ReSalud/>
+  }
+
+   
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

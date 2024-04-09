@@ -272,7 +272,7 @@ export function RegistroF() {
 
 
               <Form.Item>
-                <Button type="primary" htmlType="submit" disabled={!formValues.curp}>
+                <Button type="primary" htmlType="submit" disabled={!formValues.curp}  style={{ color: 'black' }}>
                   Continuar registro
                 </Button>
               </Form.Item>
@@ -442,7 +442,7 @@ export function RegistroF() {
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" htmlType="submit" disabled={!checked || !formValues.pregunta || !formValues.respuesta || !formValues.contra || !formValues.terms}>
+                <Button  style={{ color: 'black' }} type="primary" htmlType="submit" disabled={!checked || !formValues.pregunta || !formValues.respuesta || !formValues.contra || !formValues.terms}>
                   Registrar
                 </Button>
               </Form.Item>
@@ -451,7 +451,9 @@ export function RegistroF() {
                 <Button type="primary" onClick={() => {
                   setShowFirstForm(true);
                   setShowSecondForm(false);
-                }}>
+                }}
+                style={{ color: 'black' }}
+                >
                   Ir atrás
                 </Button>
               </Form.Item>

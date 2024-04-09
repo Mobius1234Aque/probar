@@ -11,26 +11,21 @@ const Bracrum = () => {
     Login: "Inicio de Sesion",
     Quien: "¿Quienes somos?",
 
-
     Preguntas: "Preguntas frecuentes",
- 
 
     RegA: "Registrar alumnos",
     MiLista: "Lista de alumnos",
     modal: "Modificar lista de alumnos",
 
-    Mapa: "Mapa de navegación",
-    // Agrega más rutas y nombres personalizados aquí
-
-
+    Mapa: "Mapa de navegación", 
     ReContraseña: "Recuperación de contraseña paso 1",
-    Re2Contraseña: "Recuperación de contraseña paso 2"
+    Re2Contraseña: "Recuperación de contraseña paso 2",
   };
 
   return (
-    <div style={{ padding: "15px" }}>
-      <Link className="text-decoration-none text-dark" to="/">
-       Inicio
+    <div className="p-5 text-base">
+      <Link className="text-black hover:text-[#60bdfc]" to="/">
+        Inicio
       </Link>
       {pathnames.map((name, index) => {
         const routeTo = `${pathnames.slice(0, index + 1).join("/")}`;

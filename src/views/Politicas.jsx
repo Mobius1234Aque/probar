@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { FloatButton } from "antd";
+import { FloatButton, Divider } from "antd";
 import "../css/Terminos.css";
 import { ScrollToTop } from "../components/ScrollToTop";
 import { Link } from "react-router-dom";
@@ -14,9 +14,13 @@ export function Politicas() {
       <CSPMetaTag />
 
       <Header />
-      <div className="containerrr">
+      <div className=" flex flex-col justify-center leading-8 m-10">
         <ScrollToTop />
-        <h2>Política de privacidad</h2>
+        <h2 className="text-2xl font-bold text-center mb-5">
+          Política de privacidad
+        </h2>
+        <Divider className="chiUwu" />
+
         <p>
           El responsable de la recopilación y procesamiento de sus datos
           personales es el profesor: José Francisco Quijano Acosta. Nuestra
@@ -28,7 +32,7 @@ export function Politicas() {
         <h3>Domicilio</h3>
         <p>Calle La cruz, sin número, Ámaxac, Huazalingo, Hidalgo C.P.43075.</p>
 
-        <h3>Responsabilidad</h3>
+        <h3 className="font-bold my-4">Responsabilidad</h3>
         <p>
           Las escuelas primarias en la zona 012 reconocen su responsabilidad en
           la recopilación de datos personales de estudiantes y su uso en el
@@ -55,76 +59,76 @@ export function Politicas() {
           ponerse en contacto con nosotros.
         </p>
 
-        <h3>¿Con qué fines emplearemos su información personal?</h3>
+        <h3 className="font-bold my-4" s>
+          ¿Con qué fines emplearemos su información personal?
+        </h3>
         <p>
           Los datos personales que solicitamos los utilizaremos para las
           siguientes finalidades:
         </p>
+        <div className="flex justify-center items-center">
+          <table className="border border-blue_uno p-2 w-9/12 mt-5 mb-5">
+            {/* Encabezados de columna */}
+            <thead className="bg-blue_uno bg-opacity-30">
+              <tr>
+                <th className="border border-blue_uno p-2">Finalidad</th>
+                <th className="border border-blue_uno p-2">
+                  ¿Requieren consentimiento del titular?
+                </th>
+              </tr>
+            </thead>
+            {/* Datos de la tabla */}
+            <tbody>
+              <tr>
+                <td className="border border-blue_uno p-2">
+                  Facilitar la toma de decisiones educativas a nivel escolar o
+                  del distrito al ayudar a determinar la prioridad de asignar
+                  recursos para abordar problemas específicos y mejorar la
+                  gestión educativa.
+                </td>
+                <td className="border border-blue_uno p-2">No</td>
+              </tr>
+              <tr>
+                <td className="border border-blue_uno p-2">
+                  Llevar un registro del progreso académico de los alumnos,
+                  incluyendo calificaciones, asistencia, y desempeño en
+                  exámenes. Esto permite evaluar el rendimiento estudiantil y
+                  proporcionar retroalimentación educativa.
+                </td>
+                <td className="border border-blue_uno p-2">No</td>
+              </tr>
+              <tr>
+                <td className="border border-blue_uno p-2">
+                  Garantizar la seguridad de los alumnos y el personal, para
+                  responder adecuadamente en situaciones de emergencia.
+                </td>
+                <td className="border border-blue_uno p-2">No</td>
+              </tr>
+              <tr>
+                <td className="border border-blue_uno p-2">
+                  Identificar a alumnos que puedan necesitar apoyo adicional o
+                  programas de tutoría, ayudando así a mejorar el aprendizaje
+                  individual.
+                </td>
+                <td className="border border-blue_uno p-2">Si</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <table
-          style={{ border: "1px solid #dee2e6", width: "100%" }}
-          className="table table-bordered"
-        >
-          {/* Encabezados de columna */}
-          <thead className="thead-dark">
-            <tr>
-              <th style={{ border: "1px solid #dee2e6" }}>Finalidad</th>
-              <th style={{ border: "1px solid #dee2e6" }}>
-                ¿Requieren consentimiento del titular?
-              </th>
-            </tr>
-          </thead>
-          {/* Datos de la tabla */}
-          <tbody>
-            <tr>
-              <td style={{ border: "1px solid #dee2e6" }}>
-                Facilitar la toma de decisiones educativas a nivel escolar o del
-                distrito al ayudar a determinar la prioridad de asignar recursos
-                para abordar problemas específicos y mejorar la gestión
-                educativa.
-              </td>
-              <td style={{ border: "1px solid #dee2e6" }}>No</td>
-            </tr>
-            <tr>
-              <td style={{ border: "1px solid #dee2e6" }}>
-                Llevar un registro del progreso académico de los alumnos,
-                incluyendo calificaciones, asistencia, y desempeño en exámenes.
-                Esto permite evaluar el rendimiento estudiantil y proporcionar
-                retroalimentación educativa.
-              </td>
-              <td style={{ border: "1px solid #dee2e6" }}>No</td>
-            </tr>
-            <tr>
-              <td style={{ border: "1px solid #dee2e6" }}>
-                Garantizar la seguridad de los alumnos y el personal, para
-                responder adecuadamente en situaciones de emergencia.
-              </td>
-              <td style={{ border: "1px solid #dee2e6" }}>No</td>
-            </tr>
-            <tr>
-              <td style={{ border: "1px solid #dee2e6" }}>
-                Identificar a alumnos que puedan necesitar apoyo adicional o
-                programas de tutoría, ayudando así a mejorar el aprendizaje
-                individual.
-              </td>
-              <td style={{ border: "1px solid #dee2e6" }}>Si</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h3>Datos personales que se recaban</h3>
+        <h3 className="font-bold my-4">Datos personales que se recaban</h3>
         <p>
           Datos personales comunes (maestros, alumnos, padres de familia o
           tutores legales):
         </p>
-        <ol>
+        <ol className="list-inside list-disc mx-10 leading-8 mt-4">
           <li>Nombres y apellidos.</li>
           <li>Fecha de nacimiento.</li>
           <li>Domicilio.</li>
         </ol>
 
         <p>Datos específicos (maestros):</p>
-        <ol>
+        <ol className="list-inside list-disc mx-10 leading-4 mt-4">
           <li>Título académico y certificaciones.</li>
           <br></br>
           <li>Historial de empleo anterior (en algunos casos).</li>
@@ -136,7 +140,7 @@ export function Politicas() {
         </ol>
 
         <p>Datos específicos (alumnos):</p>
-        <ol>
+        <ol className="list-inside list-disc mx-10 leading-4 mt-4">
           <li>Nombres de los padres o tutores legales.</li>
           <br></br>
           <li>Números de teléfono de contacto de los padres o tutores.</li>
@@ -171,7 +175,7 @@ export function Politicas() {
           datos personales, así como a utilizarlos únicamente para los fines
           educativos y administrativos pertinentes.
         </p>
-        <h3>Su información y sus derechos</h3>
+        <h3 className="font-bold my-4">Su información y sus derechos</h3>
         <p>
           Los usuarios tienen varios derechos en relación con sus datos
           personales en una plataforma. En primer lugar, tienen derecho a
@@ -192,14 +196,14 @@ export function Politicas() {
           regulaciones de protección de datos.
         </p>
 
-        <h3>Contacto</h3>
+        <h3 className="font-bold my-4">Contacto</h3>
         <p>
           Para llevar a cabo cualquier procedimiento relacionado con los
           derechos ARCO (Acceso, Rectificación, Cancelación u Oposición de datos
           personales), ponemos a tu disposición la siguiente información de
           contacto:
         </p>
-        <ul>
+        <ul className="list-inside list-disc mx-10 leading-4 mt-4">
           <li>
             Domicilio: Calle La cruz, sin número, Ámaxac, Huazalingo, Hidalgo
             C.P.43075.
@@ -220,7 +224,7 @@ export function Politicas() {
           </Link>
         </p>
 
-        <h3>
+        <h3 className="font-bold my-4">
           ¿Con quiénes compartiremos su información personal y con qué
           propósitos lo haremos?
         </h3>
@@ -249,7 +253,7 @@ export function Politicas() {
           aplicable y las necesidades operativas.
         </p>
 
-        <h3>
+        <h3 className="font-bold my-4">
           ¿Cuáles son las implicaciones o consecuencias si decido no autorizar
           la transferencia de mi información personal?
         </h3>
@@ -269,7 +273,9 @@ export function Politicas() {
           privacidad aplicables.
         </p>
 
-        <h3>Autorización de promoción o comunicación</h3>
+        <h3 className="font-bold my-4">
+          Autorización de promoción o comunicación
+        </h3>
 
         <p>
           Si en algún momento los interesados desean dejar de recibir mensajes
@@ -278,7 +284,7 @@ export function Politicas() {
           medios de contacto:
         </p>
 
-        <ul>
+        <ul className="list-inside list-disc mx-10 leading-4 mt-4">
           <li>
             Domicilio: Calle La cruz, sin número, Ámaxac, Huazalingo, Hidalgo
             C.P.43075.
@@ -295,7 +301,7 @@ export function Politicas() {
           promocionales, de acuerdo con sus preferencias.
         </p>
 
-        <h3>Cambios al aviso de privacidad</h3>
+        <h3 className="font-bold my-4">Cambios al aviso de privacidad</h3>
         <p>
           Cualquier modificación a este aviso de privacidad estará disponible
           para su consulta en
@@ -310,7 +316,7 @@ export function Politicas() {
         </p>
 
         <br></br>
-        <p class="derecha">
+        <p class="text-end">
           Fecha de última actualización: 14 de noviembre del 2023
         </p>
       </div>
